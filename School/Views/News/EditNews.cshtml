@@ -1,0 +1,40 @@
+﻿@using School.Models
+@using School.ViewModels
+@model NewsVM
+
+@if (Model.UsrRole == "Администратор")
+{
+    <form asp-action="EditNews" asp-controller="News" method="post">
+        @Html.HiddenFor(id => Model.NewsMdl.Id)
+        @Html.HiddenFor(date => Model.NewsMdl.PostDT)
+        <div class="form-inline">
+            <label asp-for="NewsMdl.Title" class="control-label">Заголовок:</label>
+            <input asp-for="NewsMdl.Title" class="form-control" />
+        </div>
+        <div>
+            <label asp-for="NewsMdl.Text" class="control-label">Текст новости:</label><br />
+            <textarea asp-for="NewsMdl.Text" class="form-control"></textarea>
+        </div>
+        <br />
+        <div>
+            <p>Дата публикации: @Model.NewsMdl.PostDT</p>
+        </div>
+        <input type="submit" value="Сохранить изменения">
+    </form>
+}
+else
+{
+    <h3>@Model.NewsMdl.Title</h3>
+    <br />
+    <div>
+        @foreach (string str in Model.NewsMdl.Text.Split(Environment.NewLine))
+        {
+            <p>@str</p>
+        }
+        
+    </div>
+    <br />
+    <div>
+        <p class="postDate">Дата публикации: @Model.NewsMdl.PostDT.ToString("dd.MM.yy")</p>
+    </div>   
+}

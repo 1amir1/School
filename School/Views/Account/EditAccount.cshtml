@@ -1,0 +1,126 @@
+﻿@using School.Models;
+@using School.ViewModels;
+@model AccEditMdl
+
+
+<H2>Подробности аккаунта</h2>
+<br/>
+<form asp-action="EditAccount" asp-controller="Account" method="post">
+    
+    @if (Model.UsrRole == "Администратор")
+    {
+        <div class="row">
+            <div class="accColumn">
+                <label>Логин:</label><br />
+                <label>Пароль:</label><br />
+                <label>Имя:</label><br />
+                <label>Фамилия:</label><br />
+                <label>Почта:</label><br />
+                <label>Роль:</label><br />
+                <label>Группа:</label><br />
+            </div>
+            <div class="accColumn">
+                @Html.HiddenFor(id => Model.Usr.UsrId)
+                @Html.HiddenFor(login => Model.Usr.Login)
+                @Html.HiddenFor(pass => Model.Usr.Pass)
+                @Html.HiddenFor(fName => Model.Usr.FirstName)
+                @Html.HiddenFor(lName => Model.Usr.LastName)
+                @Html.HiddenFor(mail => Model.Usr.Mail)
+                <label>@Model.Usr.Login</label><br />
+                <label>@Model.Usr.Pass</label><br />
+                <label>@Model.Usr.FirstName</label><br />
+                <label>@Model.Usr.LastName</label><br />
+                <label>@Model.Usr.Mail</label><br />
+                <select asp-for="@Model.Usr.RoleId">
+                    @foreach (Role r in Model.Roles)
+                    {
+                        <option value="@r.Id">@r.RoleName</option>
+                    }
+                </select><br />
+                @if (Model.Usr.RoleId == 3)
+                {
+                    <table>
+                        @for (int i = 0; i < Model.Groups.Count; i++)
+                        {
+                            <tr>
+                                @Html.HiddenFor(id => Model.Groups[i].Id)
+                                @Html.HiddenFor(name => Model.Groups[i].Name)
+                                <td><input type="checkbox" asp-for="@Model.Groups[i].AddToGr"></td>
+                                <td>@Model.Groups[i].Name</td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <select asp-for="@Model.Usr.GrId">
+                        <option value="null"> </option>
+                        @foreach (GrUser gu in Model.Groups)
+                        {
+                            <option value="@gu.Id">@gu.Name</option>
+                        }
+                    </select>
+                }
+            </div>
+        </div>
+    }
+    else if (Model.UsrRole == "Пользователь")
+    {
+        <div class="row">
+            <div class="accColumn">
+                <label>Логин:</label><br />
+                <label>Имя:</label><br />
+                <label>Фамилия:</label><br />
+                <label>Почта:</label><br />
+                <label>Роль:</label><br />
+                <label>Группа:</label><br />
+            </div>
+            <div class="accColumn">
+                @Html.HiddenFor(id => Model.Usr.UsrId)
+                @Html.HiddenFor(login => Model.Usr.Login)
+                @Html.HiddenFor(pass => Model.Usr.Pass)
+                @Html.HiddenFor(role => Model.Usr.RoleId)
+                @Html.HiddenFor(gr => Model.Usr.GrId)
+                <label>@Model.Usr.Login</label><br />
+                <input type="text" asp-for="@Model.Usr.FirstName" value="@Model.Usr.FirstName" /><br />
+                <input type="text" asp-for="@Model.Usr.LastName" value="@Model.Usr.LastName" /><br />
+                <input type="text" asp-for="@Model.Usr.Mail" value="@Model.Usr.Mail" /><br />
+                <label>@Model.Usr.UsrRole.RoleName</label><br />
+                <label>@Model.Usr.UsrGr?.Desc</label><br />
+            </div>
+        </div>
+    }
+    else if (Model.UsrRole == "Преподаватель")
+    {
+        <div class="row">
+            <div class="accColumn">
+                <label>Логин:</label><br />
+                <label>Имя:</label><br />
+                <label>Фамилия:</label><br />
+                <label>Почта:</label><br />
+                <label>Роль:</label><br />
+                <label>Группы:</label><br />
+            </div>
+            <div class="accColumn">
+                @Html.HiddenFor(id => Model.Usr.UsrId)
+                @Html.HiddenFor(login => Model.Usr.Login)
+                @Html.HiddenFor(pass => Model.Usr.Pass)
+                @Html.HiddenFor(role => Model.Usr.RoleId)
+                @Html.HiddenFor(gr => Model.Usr.GrId)
+                @Html.HiddenFor(grs => Model.Usr.GrTeach)
+                <label>@Model.Usr.Login</label><br />
+                <input type="text" asp-for="@Model.Usr.FirstName" value="@Model.Usr.FirstName" /><br />
+                <input type="text" asp-for="@Model.Usr.LastName" value="@Model.Usr.LastName" /><br />
+                <input type="text" asp-for="@Model.Usr.Mail" value="@Model.Usr.Mail" /><br />
+                <label>@Model.Usr.UsrRole.RoleName</label><br />
+                @foreach (GrUser gu in Model.Groups)
+                {
+                    <label>@gu.Name</label><br />
+                }
+            </div>
+        </div>
+    }
+    <br>
+    <input type="submit" value="Сохранить изменения" class="btn"/>
+</form>
+

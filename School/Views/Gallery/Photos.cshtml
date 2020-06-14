@@ -1,0 +1,48 @@
+﻿@using School.Models;
+@using School.ViewModels;
+
+@model BaseVM
+
+
+<h2 style="margin-top:10px; margin-left:30px">Фотографии</h2>
+@if (Model.UsrRole == "Администратор")
+{
+    <form id="AddPhotos" method="post" enctype="multipart/form-data" onsubmit="return event.preventDefault(), AjaxPost(this)" class="form" role="form">
+        <div class="form-group row" style="margin-top:10px">
+            <label class="col-md-12">Добавить изображения в гелерею</label>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-2">
+                <label class="btn btn-block btn-default">
+                    Обзор <input style="display:none" id="Files" name="Files" class="form-control" onchange="PreviewFiles()" type="file" multiple accept="image/*">
+                </label>
+            </div>
+            <div class="col-md-2">
+                <input type="button" class="btn btn-warning btn-block" onclick="clearPreview()" value="Очистить">
+            </div>
+            <div class="col-md-1">
+                <span id="imgCount" class="btn btn-info btn-block"><i class="fa fa-images"></i></span>
+            </div>
+            <div class="col-md-2">
+                <input type="submit" class="btn btn-primary btn-block" value="Сохранить">
+            </div>
+        </div>
+        <div class="form-group" id="preview">
+            <table id="previewTable" class="table table-hover" style="margin:auto"></table>
+        </div>
+
+    </form>
+}
+<!--<div style="background-image: url(../../Uploads/Photos/0105225710045.jpg); width: 600px; margin-right: 10px;"><img src="~/Uploads/Photos/0105201002384.jpg"></div>-->
+
+
+<div class="swiper-container gallery-top">
+</div>
+<div class="swiper-container gallery-thumbs">
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadSlider();
+    });
+
+</script>

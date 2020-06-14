@@ -1,0 +1,34 @@
+﻿
+@{ 
+    ViewData["Title"] = "Аккаунты";
+}
+@using School.Models;
+@using School.ViewModels;
+@model ShowAccVM
+
+
+<h2>Аккаунты</h2>
+<br/>
+<table class="accTbl">
+    <tr>
+        <td>Id</td>
+        <td>Логин</td>
+        <td>Имя</td>
+        <td>Фамилия</td>
+        <td>Почта</td>
+        <td>Роль</td>
+    </tr>
+   @foreach (User u in Model.Users)
+    {
+        
+    <tr>
+            <td><a href="~/Accounts/@u.UsrId">@u.UsrId</a></td>
+            <td><a href="~/Accounts/@u.UsrId">@u.Login</a></td>
+            <td><a href="~/Accounts/@u.UsrId">@u.FirstName</a></td>
+            <td><a href="~/Accounts/@u.UsrId">@u.LastName</a></td>
+            <td><a href="~/Accounts/@u.UsrId">@u.Mail</a></td>
+            <td><a href="~/Accounts/@u.UsrId">@u.UsrRole.RoleName</a></td>
+    </tr>
+        
+    }
+</table>

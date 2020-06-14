@@ -1,0 +1,31 @@
+﻿@using School.Models;
+@using School.ViewModels;
+@model ShowReviewsVM
+
+
+<h2>Отзывы</h2>
+<br />
+@if (Model.LoggedIn && Model.UsrRole == "Пользователь")
+{
+    <a href="~/Reviews/Add">Оставить отзыв</a>
+    <br />
+}
+
+<br />
+
+@foreach (Review rv in Model.Reviews)
+{
+<div>
+    <h3>@rv.User.FirstName  @rv.User.LastName</h3>
+    <p class="RvText">@rv.Text</p>
+    <p>Оценка: @rv.Rate из 10</p>
+    <p class="postDate">@rv.PostDT.ToString("dd.MM.yy")</p>
+    @if (rv.UsrId == Convert.ToInt32(Model.UsrId))
+    {
+        <a href="~/Reviews/@rv.Id">Изменить отзыв</a>
+    }
+    <br />
+    <hr />
+    <br />
+</div>
+}

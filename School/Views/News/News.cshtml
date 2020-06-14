@@ -1,0 +1,38 @@
+﻿@using School.Models;
+@using School.ViewModels;
+@model ShowNewsVM
+
+<h2>События</h2>
+<br />
+@if (Model.UsrRole == "Администратор")
+{
+    <a href="~/News/Add">Добавить событие</a>
+    <br />
+}
+@foreach (NewsMdl n in Model.NewsMdls)
+{
+    <div>
+        <h3><a class="newsLnk" href="~/News/@n.Id">@n.Title  </a></h3>
+        @if (n.Text.Length > 100)
+        {
+            n.Text = n.Text.Substring(0, 100) + "...";
+            @foreach (string str in n.Text.Split(Environment.NewLine))
+            {
+                <p>@str</p>
+            }
+
+        }
+        else
+        {
+            @foreach (string str in n.Text.Split(Environment.NewLine))
+            {
+                <p>@str</p>
+            }
+        }
+        <br />
+        <p class="postDate">@n.PostDT.ToString("dd.MM.yy")</p>
+        <hr />
+        <br />
+    </div>
+
+}

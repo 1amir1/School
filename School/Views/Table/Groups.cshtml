@@ -1,0 +1,47 @@
+﻿@using School.ViewModels;
+@using School.Models;
+@model GrShowVM
+
+<h2>Расписание</h2>
+
+<table class="globalTbl">
+    <tr>
+        <th>Время</th>
+        <th>Понедельник</th>
+        <th>Вторник</th>
+        <th>Среда</th>
+        <th>Четверг</th>
+        <th>Пятница</th>
+        <th>Суббота</th>
+        <th>Воскресенье</th>
+    </tr>
+    @for (int i = 0; i < Model.UniqueTime.Count; i++)
+    {
+    <tr>
+        <td>@Model.UniqueTime[i] - @Convert.ToDateTime(Model.UniqueTime[i]).AddHours(1).ToString("HH:mm")</td>
+        @for (int j = 1; j < 8; j++)
+        {
+            <td>
+           @foreach (GrVM gr in Model.Grs)
+            {
+               @for (int k = 0; k < gr.Table.Count; k++)
+                {
+                   @if (gr.Table[k].Time == Model.UniqueTime[i])
+                    {
+                        @if (gr.Table[k].Id == j)
+                        {
+                            <a class="custLnk" href="~/Groups/@gr.Id">@gr.Desc</a><br/>
+                        }
+                    }
+                }
+            }
+            </td>
+        }
+    </tr>
+    }
+</table>
+<br/>
+@if (Model.UsrRole == "Администратор")
+{
+    <a href="~/Groups/Add">Добавить группу</a>
+}

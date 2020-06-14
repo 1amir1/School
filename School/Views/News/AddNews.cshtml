@@ -1,0 +1,20 @@
+﻿@using School.Models;
+@using School.ViewModels;
+@model NewsVM
+@{ 
+    ViewData["Title"] = "Добавить новость";
+}
+
+<form asp-action="AddNews" asp-controller="News">
+    <div class="form-inline">
+        <label asp-for="NewsMdl.Title" class="control-label">Заголовок:</label>
+        <input type="text" asp-for="NewsMdl.Title" class="form-control">
+    </div>  
+    <br />
+    <div class="form-group">
+        <label asp-for="NewsMdl.Text" class="control-label">Текст новости:</label>
+        <br>
+        <textarea asp-for="NewsMdl.Text" class="form-control"></textarea>
+    </div>
+    <input type="submit" value="Добавить новость" />
+</form>

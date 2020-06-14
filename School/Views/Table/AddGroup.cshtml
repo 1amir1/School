@@ -1,0 +1,79 @@
+﻿@using School.Models;
+@using School.ViewModels;
+@model AddGroupModel
+
+
+<h2>Создание группы</h2>
+<br />
+<form asp-action="AddGroup" asp-controller="Table">
+    <div class="form-horizontal">
+        <label asp-for="@Model.GrToAdd.Desc">Описание:</label>
+        <input type="text" asp-for="@Model.GrToAdd.Desc" />
+    </div>
+    <br />
+    <div class="form-horizontal">
+        <label asp-for="@Model.GrToAdd.Table">Расписание:</label><br />
+        <div class="row">
+            <div class="column">
+        <table class="addGrTbl">
+            @for (int i = 0; i < Model.GrTable.Count; i++)
+            {
+                <tr>
+                    @Html.HiddenFor(id => Model.GrTable[i].Id)
+                    @Html.HiddenFor(day => Model.GrTable[i].Day)
+                    <td><input type="checkbox" asp-for="@Model.GrTable[i].Added"></td>
+                    <td>@Model.GrTable[i].Day</td>
+                    <td>
+                        <input type="time" asp-for="@Model.GrTable[i].Time">
+                    </td>
+                </tr>
+
+            }
+        </table>
+            </div>
+            <div class="column"><span asp-validation-for="GrTable"></span></div>
+        </div>
+    </div>
+    <br />
+    <div class="form-horizontal">
+        <label asp-for="@Model.GrToAdd.GrTeach.TeachId">Преподаватель:</label>
+        <select asp-for="@Model.GrToAdd.GrTeach.TeachId">
+            @for (int i = 0; i < Model.Teachers.Count; i++)
+            {
+
+                <option value="@Model.Teachers[i].UsrId">
+                    @Model.Teachers[i].FirstName @Model.Teachers[i].LastName
+                </option>
+            }
+        </select>
+        @for (int i = 0; i < Model.Teachers.Count; i++)
+        {
+            @Html.HiddenFor(uId => Model.Teachers[i].UsrId)
+            @Html.HiddenFor(uFName => Model.Teachers[i].FirstName)
+            @Html.HiddenFor(uLName => Model.Teachers[i].LastName)
+        }
+    </div>
+    <br />
+    <div class="form-horizontal">
+        <label>Участники:</label> <br />
+        <table class="addGrTbl">
+            @for (int i = 0; i < Model.GrUsers.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(ids => Model.GrUsers[i].Id)
+                        @Html.HiddenFor(names => Model.GrUsers[i].Name)
+                        <input type="checkbox" asp-for="@Model.GrUsers[i].AddToGr">
+                    </td>
+                    <td>@Model.GrUsers[i].Name</td>
+                </tr>
+            }
+        </table>
+
+    </div>
+    <input type="submit" value="Добавить группу">
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

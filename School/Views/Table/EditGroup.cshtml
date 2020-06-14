@@ -1,0 +1,112 @@
+﻿@using School.Models;
+@using School.ViewModels;
+@model AddGroupModel
+
+
+@if (Model.UsrRole == "Администратор")
+{
+    <form asp-action="EditGroup" asp-controller="Table" method="post">
+        @Html.HiddenFor(id => Model.GrToAdd.Id)
+        <div class="form-horizontal">
+            <label asp-for="@Model.GrToAdd.Desc">Описание:</label>
+            <input type="text" asp-for="@Model.GrToAdd.Desc" value="@Model.GrToAdd.Desc">
+        </div>
+        <div>
+            <label asp-for="@Model.GrToAdd.GrTeach.TeachId">Преподаватель:</label>
+            <select asp-for="@Model.GrToAdd.GrTeach.TeachId">
+                @foreach (User u in Model.Teachers)
+                {
+                    <option value="@u.UsrId">@u.FirstName @u.LastName</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label>Расписание:</label>
+            <table>
+                @for (int i = 0; i < Model.GrTable.Count; i++)
+                {
+                    <tr>
+                        @Html.HiddenFor(id => Model.GrTable[i].Id)
+                        @Html.HiddenFor(day => Model.GrTable[i].Day)
+                        <td><input type="checkbox" asp-for="@Model.GrTable[i].Added"></td>
+                        <td>@Model.GrTable[i].Day</td>
+                        <td><input type="time" asp-for="@Model.GrTable[i].Time"></td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div>
+            <label>Ученики:</label>
+            @for (int i = 0; i < Model.GrUsers.Count; i++)
+            {
+                @Html.HiddenFor(ids => Model.GrUsers[i].Id)
+                @Html.HiddenFor(names => Model.GrUsers[i].Name)
+                <input type="checkbox" asp-for="@Model.GrUsers[i].AddToGr">@Model.GrUsers[i].Name<br />
+            }
+        </div>
+        <input type="submit" value="Сохранить изменения">
+    </form>
+    <form asp-action="DeleteGroup" asp-controller="Table" method="delete">
+        <!--<input type="submit" value="Удалить группу">-->
+    </form>
+}
+else if (Model.UsrRole == "Преподаватель")
+{
+    <div>
+        <label>Описание: @Model.GrToAdd.Desc</label>
+    </div>
+    <div>
+        <label>Преподаватель: @Model.GrToAdd.GrTeach.Teacher.FirstName @Model.GrToAdd.GrTeach.Teacher.LastName</label>
+    </div>
+    <div>
+        <label>Расписание:</label><br />
+        <table>
+            @foreach (GrDayTime tbl in Model.GrTable)
+            {
+                if (tbl.Added)
+                {
+                    <tr>
+                        <td>@tbl.Day</td>
+                        <td>@tbl.Time - @Convert.ToDateTime(tbl.Time).AddHours(1).ToString("HH:mm")</td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <div>
+        <label>Ученики:</label>
+        <ul>
+            @foreach (GrUser gu in Model.GrUsers)
+            {
+                if (gu.AddToGr)
+                {
+                    <li>@gu.Name</li>
+                }
+            }
+        </ul>
+    </div>
+}
+else
+{
+    <div>
+        <label>Описание: @Model.GrToAdd.Desc</label>
+    </div>
+    <div>
+        <label>Преподаватель: @Model.GrToAdd.GrTeach.Teacher.FirstName @Model.GrToAdd.GrTeach.Teacher.LastName</label>
+    </div>
+    <div>
+        <label>Расписание:</label><br />
+        <table>
+            @foreach (GrDayTime tbl in Model.GrTable)
+            {
+                if (tbl.Added)
+                {
+                    <tr>
+                        <td>@tbl.Day</td>
+                        <td>@tbl.Time - @Convert.ToDateTime(tbl.Time).AddHours(1).ToString("HH:mm")</td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+}

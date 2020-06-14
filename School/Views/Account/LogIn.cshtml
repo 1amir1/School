@@ -1,0 +1,39 @@
+﻿@using School.ViewModels;
+@model LoginModel;
+
+@{
+    Layout = "_LayoutReg";
+}
+<div class="container">
+    <div class="log">
+        <h2>Вход на сайт</h2>
+
+        <br /><br />
+        <form asp-action="Login" asp-anti-forgery="true">
+            <div class="validation" asp-validation-summary="ModelOnly" />
+            <div>
+                <div class="form-group">
+                    <label asp-for="Login">Введите логин:</label>
+                    <input type="text" asp-for="Login" />
+                    <span asp-validation-for="Login" ></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Pass">Введите пароль:</label>
+                    <input asp-for="Pass" />
+                    <span asp-validation-for="Pass"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Войти" class="btn" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <a asp-action="Register">Регистрация</a>
+    </div>
+
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

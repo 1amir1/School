@@ -1,0 +1,26 @@
+﻿@using School.ViewModels;
+@using School.Models;
+@model ReviewVM
+
+
+
+<form asp-action="EditReview" asp-controller="Review" method="post">
+    @Html.HiddenFor(usrId => Model.Review.UsrId)
+    @Html.HiddenFor(dt => Model.Review.PostDT)
+    @Html.HiddenFor(id => Model.Review.Id)
+    <div class="form-inline">
+        <label asp-for="Review.Rate">Оценка:</label>
+        <select asp-for="@Model.Review.Rate">
+            @for (int i = 0; i < 11; i++)
+            {
+                <option value="@i">@i</option>
+            }
+        </select>
+        из 10
+    </div>
+    <div>
+        <label asp-for="Review.Text">Текст отзыва:</label><br />
+        <textarea asp-for="Review.Text"></textarea>
+    </div>
+    <input type="submit" value="Сохранить изменения">
+</form>
